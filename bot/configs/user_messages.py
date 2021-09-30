@@ -12,9 +12,12 @@ NUM_OUTSIDE_ONE_AND_SIXTY_ERR = 'Duration must be between 1 and 60 minutes.'
 MISSING_ARG_ERR = 'Pass in at least one number.'
 
 GREETINGS = ['Howdy howdy! Let\'s do this thang.',
+             'Assalamu alaykum wa rahamatullahi wa barakatuh. Let\'s get going!',
              'Hey there! Let\'s get started!',
              'It\'s productivity o\'clock!',
              'Let\'s ketchup on some work!']
+GREETINGSGIFS = ['https://c.tenor.com/qrNqD3lvOq0AAAAC/milk-and-mocha-coffee.gif',
+                  'https://c.tenor.com/lGCSPV9_eGsAAAAC/milk-and-mocha-bears-ok.gif']
 
 ENCOURAGEMENTS = ['Let\'s keep it going!',
                   'Keep up the good work!',

@@ -1,14 +1,13 @@
 import time as t
 
 from discord.ext import commands
-
+from discord import Embed, Colour
 from src.Settings import Settings
 from configs import config, bot_enum, user_messages as u_msg
 from src.session import session_manager, session_controller, session_messenger, countdown, state_handler
 from src.session.Session import Session
 from src.utils import msg_builder
 import ffmpeg
-
 
 class Control(commands.Cog):
 
@@ -23,14 +22,12 @@ class Control(commands.Cog):
             await ctx.send(u_msg.ACTIVE_SESSION_EXISTS_ERR)
             return
         if not ctx.author.voice:
-            await ctx.send('Join a voice channel to use Pomomo!')
+            await ctx.send('Join a voice channel to use Pomoji!')
             return
-
         session = Session(bot_enum.State.POMODORO,
                           Settings(pomodoro, short_break, long_break, intervals),
                           ctx)
         await session_controller.start(session)
-
     @start.error
     async def handle_error(self, ctx, error):
         if isinstance(error, commands.BadArgument):
@@ -40,13 +37,26 @@ class Control(commands.Cog):
 
     @commands.command()
     async def stop(self, ctx):
+        embed = Embed(colour=Colour.red())
+        embed.set_image(url="https://c.tenor.com/bouurkbU61gAAAAC/milkmocha-milk-and-mocha.gif")
         session = await session_manager.get_session(ctx)
         if session:
+            user = ctx.author
             if session.stats.pomos_completed > 0:
-                await ctx.send(f'Great job! '
-                               f'You completed {msg_builder.stats_msg(session.stats)}.')
+                if ctx.author.id == 694679380068270170:
+                                    await ctx.send(f'Great job, Joanna! '
+                               f'You completed {msg_builder.stats_msg(session.stats)}. Rest up now 😊')
+                                    await ctx.send(embed=embed)
+
+                if ctx.author.id == 490687063692279818:
+                                    await ctx.send(f'Great job, Chamith! '
+                               f'You completed {msg_builder.stats_msg(session.stats)}. Rest up now 😊')
+                                    await ctx.send(embed=embed)
             else:
-                await ctx.send(f'See you again soon! 👋')
+                if ctx.author.id == 694679380068270170:
+                    await ctx.send(f'See you again soon, Joanna! 👋') 
+                if ctx.author.id == 490687063692279818:
+                    await ctx.send(f'See you again soon, Chamith! 👋') 
             await session_controller.end(session)
 
     @commands.command()

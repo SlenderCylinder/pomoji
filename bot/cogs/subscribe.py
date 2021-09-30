@@ -32,7 +32,7 @@ class Subscribe(commands.Cog):
         session = await session_manager.get_session(ctx)
         if session:
             if not vc_accessor.get_voice_channel(ctx):
-                await ctx.send('Pomomo must be in a voice channel to use auto-shush.')
+                await ctx.send('Pomoji must be in a voice channel to use auto-shush.')
                 return
             auto_shush = session.auto_shush
             if who.lower() == AutoShush.ALL:
