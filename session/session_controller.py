@@ -1,6 +1,6 @@
 import time as t
 from asyncio import sleep
-
+from discord import Embed, Colour
 from . import session_manager, session_messenger, countdown, state_handler
 from .Session import Session
 from ..Settings import Settings
@@ -19,14 +19,15 @@ async def resume(session: Session):
         if not await run_interval(session):
             break
 
-
 async def start(session: Session):
     if not await vc_manager.connect(session):
         return
     session_manager.activate(session)
+    session.timer2.running1 = True
     await session_messenger.send_start_msg(session)
     await player.alert(session)
     await resume(session)
+
 
 
 async def edit(session: Session, new_settings: Settings):
@@ -39,7 +40,7 @@ async def edit(session: Session, new_settings: Settings):
 
 async def end(session: Session):
     ctx = session.ctx
-    await countdown.cleanup_pins(session)
+    session.timer2.running1 = False
     await session.auto_shush.unshush(ctx)
     for sub in session.auto_shush.subs.union(session.dm.subs):
         await sub.send(f'The session in {ctx.guild.name} has ended.')

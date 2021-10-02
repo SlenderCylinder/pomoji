@@ -14,10 +14,12 @@ class Session:
         self.state = state
         self.settings = settings
         self.timer = Timer(self)
+        self.timer2 = Timer(self)
         self.stats = Stats()
         self.ctx = ctx
         self.timeout = 0
         self.bot_start_msg = None
+        self.bot_timer_msg = None
 
         # Subscriptions
         self.dm = Subscription()

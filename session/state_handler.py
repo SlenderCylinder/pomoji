@@ -1,8 +1,17 @@
 from .Session import Session
 from configs import bot_enum
+import random
+from discord import Embed, Colour
 
 
 async def transition(session: Session):
+    embed = Embed(colour=Colour.green())
+    image = random.choice(["https://c.tenor.com/6YaJ49psXl0AAAAC/gudetama-sad.gif",
+      "https://c.tenor.com/ROGyVpmI9w4AAAAC/gudetama-scholar.gif",
+      "https://c.tenor.com/jLlcmN87QHUAAAAC/gudetama-poop.gif",
+      "https://c.tenor.com/opQ-c7hRqJYAAAAC/gut.gif",
+      "https://c.tenor.com/2tp1_j-Uo-8AAAAi/gudetama-love.gif",])
+    embed.set_image(url=image)
     session.timer.running = False
     if session.state == bot_enum.State.POMODORO:
         stats = session.stats
