@@ -63,9 +63,9 @@ class Control(commands.Cog):
                                f'You completed {msg_builder.stats_msg(session.stats)}')
                                     await ctx.send(embed=embed)               
             else:                   
-                if ctx.author.id == 694679380068270170:
+                if ctx.author.id == [userid]:
                     await ctx.send(f'See you again soon,  [username]! 👋') 
-                if ctx.author.id == 490687063692279818:
+                if ctx.author.id ==  [userid]:
                     await ctx.send(f'See you again soon, [username]! 👋')
             await session_controller.end(session)
 
