@@ -54,19 +54,19 @@ class Control(commands.Cog):
         if session:
             user = ctx.author
             if session.stats.pomos_completed > 0:
-                if ctx.author.id == 694679380068270170:
-                                    await ctx.send(f'Great job, Joanna! '
+                if ctx.author.id == [userid]:
+                                    await ctx.send(f'Great job, [username]! '
                                f'You completed {msg_builder.stats_msg(session.stats)}')
                                     await ctx.send(embed=embed)
-                if ctx.author.id == 490687063692279818:
-                                    await ctx.send(f'Great job, Chamith! '
+                if ctx.author.id ==  [userid]:
+                                    await ctx.send(f'Great job, [username]! '
                                f'You completed {msg_builder.stats_msg(session.stats)}')
                                     await ctx.send(embed=embed)               
             else:                   
                 if ctx.author.id == 694679380068270170:
-                    await ctx.send(f'See you again soon, Joanna! 👋') 
+                    await ctx.send(f'See you again soon,  [username]! 👋') 
                 if ctx.author.id == 490687063692279818:
-                    await ctx.send(f'See you again soon, Chamith! 👋')
+                    await ctx.send(f'See you again soon, [username]! 👋')
             await session_controller.end(session)
 
 
