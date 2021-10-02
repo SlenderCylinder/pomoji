@@ -42,7 +42,7 @@ async def kill_if_idle(session: Session):
     else:
         def check(reaction, user):
             return reaction.emoji == '👍' and user != ctx.bot.user
-        msg = await ctx.channel.send('Are you still there?')
+        msg = await ctx.channel.send('Checking in to make sure. Are you still there? If you are, please click the 👍 button. Session will be terminated if no response is receieved within 60 seconds')
         await msg.add_reaction('👍')
         try:
             await ctx.bot.wait_for('reaction_add', check=check, timeout=60)
