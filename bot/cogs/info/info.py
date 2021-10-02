@@ -25,21 +25,19 @@ class Info(commands.Cog):
     @commands.command()
     async def time(self, ctx):
         session = await session_manager.get_session(ctx)
-        if session.bot_timer_msg:
-            await ctx.send("Please see the Session status above")
-        if not session.bot_timer_msg:
-            if session:
-                embed = Embed(title='Session status', description=f'**{session.timer.time_remaining_to_str()}** remaining on {session.state}!', colour=Colour.green())
-                session.bot_timer_msg = await session.ctx.send(embed=embed)
-                await session.bot_timer_msg.pin()
-                while session.timer2.running1 == True:
-                    await asyncio.sleep(1)
-                    embed = Embed(title='Session status',description=f'**{session.timer.time_remaining_to_str()}** remaining on {session.state}!', colour=Colour.green())
-                    await session.bot_timer_msg.edit(embed=embed)
-                embed2 = Embed(title='Session ended', description=f'Terminated by {ctx.author.name}', colour=Colour.red())
-                await session.bot_timer_msg.edit(embed=embed2)
-                await session.bot_timer_msg.unpin()
-                    
+        timer = session.timer
+        timer.remaining = timer.end - t.time()
+        if session:
+            embed = Embed(title='Session status', description=f'**{session.timer.time_remaining_to_str()}** remaining on {session.state}!', colour=Colour.green())
+            session.bot_timer_msg = await session.ctx.send(embed=embed)
+            while session.timer.running:
+                await asyncio.sleep(1)
+                if session.timer.running == False:
+                    break
+                embed = Embed(title='Session status',description=f'**{session.timer.time_remaining_to_str()}** remaining on {session.state}!', colour=Colour.green())
+                await session.bot_timer_msg.edit(embed=embed)
+
+
     @commands.command()
     async def settings(self, ctx):
         session = await session_manager.get_session(ctx)

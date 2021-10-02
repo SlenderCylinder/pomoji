@@ -5,9 +5,11 @@ from discord import Embed, Colour
 from src.Settings import Settings
 from configs import config, bot_enum, user_messages as u_msg
 from src.session import session_manager, session_controller, session_messenger, countdown, state_handler
+from discord.ext.commands import CommandNotFound
 from src.session.Session import Session
 from src.utils import msg_builder
 import ffmpeg
+import random
 
 class Control(commands.Cog):
 
@@ -38,26 +40,35 @@ class Control(commands.Cog):
     @commands.command()
     async def stop(self, ctx):
         embed = Embed(colour=Colour.red())
-        embed.set_image(url="https://c.tenor.com/bouurkbU61gAAAAC/milkmocha-milk-and-mocha.gif")
+        image = random.choice(["https://c.tenor.com/bouurkbU61gAAAAC/milkmocha-milk-and-mocha.gif",
+        "https://c.tenor.com/lGCSPV9_eGsAAAAC/milk-and-mocha-bears-ok.gif", 
+        "https://c.tenor.com/aFDActHjaokAAAAC/milk-and-mocha-food.gif",
+        "https://c.tenor.com/YgsIQLSFeEoAAAAC/milk-and-mocha-bears-yeah.gif",
+        "https://c.tenor.com/vkby5v7ABWMAAAAC/milk-and-mocha-bears-disco.gif",
+        "https://c.tenor.com/JI-wBFXNZw8AAAAC/milk-and-mocha-cute.gif"]
+        )
+        embed.set_image(url=image)
         session = await session_manager.get_session(ctx)
+        session.timer2.running1 = False
+        session.timer.running = False
         if session:
             user = ctx.author
             if session.stats.pomos_completed > 0:
                 if ctx.author.id == 694679380068270170:
                                     await ctx.send(f'Great job, Joanna! '
-                               f'You completed {msg_builder.stats_msg(session.stats)}. Rest up now 😊')
+                               f'You completed {msg_builder.stats_msg(session.stats)}')
                                     await ctx.send(embed=embed)
-
                 if ctx.author.id == 490687063692279818:
                                     await ctx.send(f'Great job, Chamith! '
-                               f'You completed {msg_builder.stats_msg(session.stats)}. Rest up now 😊')
-                                    await ctx.send(embed=embed)
-            else:
+                               f'You completed {msg_builder.stats_msg(session.stats)}')
+                                    await ctx.send(embed=embed)               
+            else:                   
                 if ctx.author.id == 694679380068270170:
                     await ctx.send(f'See you again soon, Joanna! 👋') 
                 if ctx.author.id == 490687063692279818:
-                    await ctx.send(f'See you again soon, Chamith! 👋') 
+                    await ctx.send(f'See you again soon, Chamith! 👋')
             await session_controller.end(session)
+
 
     @commands.command()
     async def pause(self, ctx):
@@ -169,7 +180,9 @@ class Control(commands.Cog):
             await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_MAX_INTERVAL_ERR)
         else:
             print(error)
-
-
 def setup(client):
     client.add_cog(Control(client))
+
+async def handle_error(self,ctx,error):
+        if isinstance(error, commands.CommandNotFound):
+           await ctx.send("Command does not exist.")
